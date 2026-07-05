@@ -14,7 +14,9 @@ export default async function Explore({
       {/* Search Header Section */}
       <div className="border-b border-zinc-100">
         <div className="container mx-auto px-6 lg:px-12 py-6">
-          <Search />
+          <Suspense fallback={<div className="h-10 w-full animate-pulse bg-zinc-100 rounded-lg" />}>
+            <Search />
+          </Suspense>
         </div>
       </div>
 
