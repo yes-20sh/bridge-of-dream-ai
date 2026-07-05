@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 // Define public routes
 const publicRoutes = ['/signin', '/request'];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
   // Check if it's a public route
