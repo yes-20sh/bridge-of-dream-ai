@@ -23,12 +23,7 @@ async def search_jobs(
     service: Annotated[JobSearchService, Depends()]
 ):
     user_id = int(request.state.user.get("sub"))
-    
-    # Update the last search model for the user
-    service.update_last_search(user_id, payload)
-    
-    # Scrape the jobs with pagination and filters
-    result = await service.scrape_jobs(payload)
+    result = await service.scrape_jobs(payload, user_id=user_id)
     return result
 
 @router.post("/job-details", response_model=JobDetailResponse)

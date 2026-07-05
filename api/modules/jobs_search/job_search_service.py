@@ -2,6 +2,7 @@ import httpx
 import asyncio
 from bs4 import BeautifulSoup
 import urllib.parse
+from typing import Optional
 from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException
 from core.supabase import get_db
@@ -54,7 +55,53 @@ class JobSearchService:
         self.db.refresh(last_search)
         return last_search
 
-    async def scrape_jobs(self, request: JobSearchRequest) -> PaginatedJobResponse:
+    def get_last_search(self, user_id: int) -> Optional[LastSearchModel]:
+        return self.db.query(LastSearchModel).filter(LastSearchModel.user_id == user_id).first()
+
+    async def scrape_jobs(self, request: JobSearchRequest, user_id: Optional[int] = None) -> PaginatedJobResponse:
+        # Check if request has no search keyword, location, or filters (is empty)
+        is_empty_search = (
+            not request.keyword and
+            not request.location and
+            not request.job_roles and
+            not request.job_types and
+            not request.locations and
+            not request.companies and
+            not request.duration
+        )
+        
+        if is_empty_search and user_id:
+            # Load search criteria from the user's last search model
+            last_search = self.get_last_search(user_id)
+            if last_search:
+                request.keyword = last_search.keyword or ""
+                request.location = last_search.location or ""
+                
+                filters = last_search.filters or {}
+                request.job_roles = filters.get("job_roles")
+                request.job_types = filters.get("job_types")
+                request.locations = filters.get("locations")
+                request.companies = filters.get("companies")
+                
+                duration_val = filters.get("duration")
+                if duration_val:
+                    try:
+                        request.duration = TimeFilter(duration_val)
+                    except ValueError:
+                        request.duration = None
+            else:
+                # Fallback defaults for new users
+                request.keyword = "Software Engineer"
+                request.location = "India"
+        elif not is_empty_search and user_id:
+            # Update the last search model for the user
+            self.update_last_search(user_id, request)
+
+        # Fallback defaults if keyword or location are still empty/missing
+        if not request.keyword:
+            request.keyword = "Software Engineer"
+        if not request.location:
+            request.location = "India"
         # Build composite keyword combining search term, roles, types, companies
         composite_keywords = []
         if request.keyword:

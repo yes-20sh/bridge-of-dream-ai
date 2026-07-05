@@ -49,9 +49,9 @@ const COMPANIES = [
 ];
 
 const DURATIONS = [
-  { id: "duration-1", label: "24 hour" },
-  { id: "duration-2", label: "1 week" },
-  { id: "duration-3", label: "1 month" },
+  { id: "day", label: "24 hour" },
+  { id: "week", label: "1 week" },
+  { id: "month", label: "1 month" },
 ];
 
 export interface JobFilterData {
@@ -89,10 +89,26 @@ export function JobFilter({
     ? initialData.companies!.map((c) => ({ id: c, label: c }))
     : COMPANIES;
 
-  const getInitialTypes = () => [];
-  const getInitialRoles = () => [];
-  const getInitialLocations = () => [];
-  const getInitialCompanies = () => [];
+  const getInitialTypes = () => {
+    const val = searchParams.get("job_types");
+    return val ? val.split(",") : [];
+  };
+  const getInitialRoles = () => {
+    const val = searchParams.get("job_roles");
+    return val ? val.split(",") : [];
+  };
+  const getInitialLocations = () => {
+    const val = searchParams.get("locations");
+    return val ? val.split(",") : [];
+  };
+  const getInitialCompanies = () => {
+    const val = searchParams.get("companies");
+    return val ? val.split(",") : [];
+  };
+  const getInitialDurations = () => {
+    const val = searchParams.get("duration");
+    return val ? [val] : [];
+  };
 
   const [selectedTypes, setSelectedTypes] =
     useState<string[]>(getInitialTypes());
@@ -104,7 +120,9 @@ export function JobFilter({
   const [selectedCompanies, setSelectedCompanies] = useState<string[]>(
     getInitialCompanies(),
   );
-  const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
+  const [selectedDurations, setSelectedDurations] = useState<string[]>(
+    getInitialDurations(),
+  );
 
   const [activeMobileTab, setActiveMobileTab] = useState("Job Types");
 
@@ -134,7 +152,7 @@ export function JobFilter({
 
   const toggleDuration = (id: string) => {
     setSelectedDurations((prev) =>
-      prev.includes(id) ? prev.filter((d) => d !== id) : [...prev, id],
+      prev.includes(id) ? [] : [id]
     );
   };
 

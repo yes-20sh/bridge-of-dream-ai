@@ -17,11 +17,9 @@ export async function JobsApiContainer({
 }) {
   const params = await searchParams;
   const keyword =
-    typeof params?.job_title === "string"
-      ? params.job_title
-      : "Software Engineer";
+    typeof params?.job_title === "string" ? params.job_title : "";
   const searchLocation =
-    typeof params?.location === "string" ? params.location : "India";
+    typeof params?.location === "string" ? params.location : "";
 
   // Helper to parse array parameters
   const parseArray = (val: string | string[] | undefined) => {
