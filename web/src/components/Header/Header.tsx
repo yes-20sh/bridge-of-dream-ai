@@ -28,14 +28,17 @@ export function Header() {
       try {
         const data = await getHeaderMetrics();
         setMetrics(data);
-      } catch (err) {
-        console.error("Failed to fetch header metrics", err);
+      } catch (err: any) {
+        // If it's a 401 Unauthorized, the user simply isn't logged in yet.
+        if (err?.response?.status !== 401) {
+          console.error("Failed to fetch header metrics", err);
+        }
       }
     };
     fetchMetrics();
   }, [pathname]);
   
-  const isJobs = pathname === "/" || pathname.startsWith("/jobs");
+  const isJobs = pathname === "/explore" || pathname.startsWith("/jobs");
   const isNetwork = pathname.startsWith("/network");
   const isSaved = pathname.startsWith("/saved");
   const isApplied = pathname.startsWith("/applied");
@@ -46,7 +49,7 @@ export function Header() {
         {/* Left Side: Logo & Navigation */}
         <div className="flex items-center gap-8">
           <Link
-            href="/"
+            href="/explore"
             className="flex items-center justify-center rounded-full overflow-hidden shrink-0"
           >
             <Image
@@ -59,7 +62,7 @@ export function Header() {
           </Link>
           <nav className="hidden md:flex items-center gap-8 font-medium text-[15px]">
             <Link
-              href="/"
+              href="/explore"
               className={`transition-colors ${
                 isJobs
                   ? "text-black font-bold border-b-2 border-black pb-1 translate-y-[2px]"

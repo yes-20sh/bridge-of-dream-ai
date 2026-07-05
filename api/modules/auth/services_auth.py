@@ -33,29 +33,25 @@ class AuthService:
             
         access_token = create_access_token(data=token_data, expires_delta=expires_delta)
         
-        import os
-        is_production = os.getenv("ENVIRONMENT") == "production"
-
         # Set the token in an HttpOnly cookie
         response.set_cookie(
             key="access_token",
             value=access_token,
             httponly=True,
             max_age=cookie_max_age,
-            samesite="lax",  # Adjust based on your cross-origin requirements
-            secure=is_production,     # Secure should be True in production to prevent transmission over HTTP
+            samesite="lax",
+            secure=False,
+            path="/"
         )
         
         return access_token
 
     def logout(self, response: Response):
-        import os
-        is_production = os.getenv("ENVIRONMENT") == "production"
         response.delete_cookie(
             key="access_token",
             httponly=True,
             samesite="lax",
-            secure=is_production,
+            secure=False,
             path="/"
         )
 

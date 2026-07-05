@@ -30,7 +30,7 @@ export function Search() {
     // reset page to 1 on new search
     params.delete("page");
 
-    router.push(`/?${params.toString()}`, { scroll: false });
+    router.push(`/explore?${params.toString()}`, { scroll: false });
   };
 
   return (

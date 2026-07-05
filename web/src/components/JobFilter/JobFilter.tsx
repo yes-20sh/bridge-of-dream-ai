@@ -157,7 +157,7 @@ export function JobFilter({
     
     params.delete("page");
 
-    router.push(`/?${params.toString()}`, { scroll: false });
+    router.push(`/explore?${params.toString()}`, { scroll: false });
   };
 
   const hasChanges =

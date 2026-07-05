@@ -328,7 +328,7 @@ export function JobList({
               setIsLoading(true);
               const params = new URLSearchParams(searchParams.toString());
               params.set("page", (parseInt(currentPage, 10) + 1).toString());
-              router.push(`/?${params.toString()}`, { scroll: false });
+              router.push(`/explore?${params.toString()}`, { scroll: false });
             }}
             variant="outline"
             className="rounded-full px-6 bg-white border-zinc-200 text-zinc-700 hover:bg-zinc-50"
