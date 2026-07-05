@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bridge-of-dream-ai-api"
+version = "0.1.0"
+description = "API for Bridge of Dream AI"
+readme = "readme.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic",
+    "pydantic-settings",
+    "email-validator",
+    "sqlalchemy",
+    "alembic",
+    "python-dotenv",
+    "httpx",
+    "beautifulsoup4",
+    "taskipy",
+    "psycopg2-binary",
+    "pyjwt",
+    "bcrypt",
+    "langchain",
+    "langchain-groq"
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy",
+    "ruff",
+    "pytest",
+    "pytest-asyncio"
+]
+
+[tool.taskipy.tasks]
+dev = "set PYTHONPYCACHEPREFIX=__pycache__ && uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+schema = "set PYTHONPYCACHEPREFIX=__pycache__ && python config/graphql/graphql_config.py"
+typecheck = "mypy ."
+format = "ruff format ."
+lint = "ruff check ."
+test = "pytest ."
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = []
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+warn_unused_ignores = true
