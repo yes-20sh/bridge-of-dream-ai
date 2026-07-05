@@ -53,7 +53,7 @@ export default function Home() {
               AI.
             </p>
             <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50 md:static md:block md:z-auto">
-              <Link href="/login">
+              <Link href="/signin">
                 <button className="px-8 py-3.5 bg-zinc-800 text-white font-medium text-[15px] hover:bg-zinc-800 transition-colors shadow-[0_8px_30px_rgb(0,0,0,0.12)] md:shadow-none">
                   Start Now
                 </button>
