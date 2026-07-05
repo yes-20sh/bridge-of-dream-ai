@@ -13,3 +13,7 @@ router = APIRouter(prefix="/general", tags=["general"])
 def get_header_metrics(request: Request, service: Annotated[GeneralService, Depends()]):
     user_id = int(request.state.user.get("sub"))
     return service.get_header_metrics(user_id)
+
+@router.get("/cron", status_code=200)
+def cron_ping():
+    return {"status": "ok"}

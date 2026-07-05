@@ -6,7 +6,7 @@ from shared.security.jwt_handler import verify_token
 class AuthMiddleware(BaseHTTPMiddleware):
     def __init__(self, app, public_paths=None):
         super().__init__(app)
-        self.public_paths = public_paths or ["/api/auth/signin", "/docs", "/openapi.json", "/api/jobs/search", "/api/requests"]
+        self.public_paths = public_paths or ["/api/auth/signin", "/docs", "/openapi.json", "/api/jobs/search", "/api/requests", "/api/general/cron"]
 
     async def dispatch(self, request: Request, call_next):
         # Skip validation for public paths and OPTIONS requests
