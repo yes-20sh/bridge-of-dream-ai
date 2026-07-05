@@ -22,7 +22,7 @@ export default function Home() {
               alt="Dream AI logo"
               width={144}
               height={144}
-              className="w-28 h-28 md:w-36 md:h-36 rounded-[32px] absolute right-4 md:-right-1 bottom-[-68px] md:bottom-1 shadow-sm object-cover"
+              className="w-28 h-28 md:w-36 md:h-36 rounded-lg absolute right-4 md:-right-1 bottom-[-68px] md:bottom-1 object-cover"
             />
           </div>
           <div className="mt-16 md:mt-24 max-w-lg">
