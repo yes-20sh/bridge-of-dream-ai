@@ -8,12 +8,14 @@ import { Footer } from "@/components/Footer/Footer";
 export const NavigationWrapper = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const isAuthPage = pathname?.startsWith("/signin") || pathname?.startsWith("/request");
+  const isHomePage = pathname === "/";
+  const hideNavigation = isAuthPage || isHomePage;
 
   return (
     <>
-      {!isAuthPage && <Header />}
+      {!hideNavigation && <Header />}
       <main className="flex-1 flex flex-col">{children}</main>
-      {!isAuthPage && <Footer />}
+      {!hideNavigation && <Footer />}
     </>
   );
 };
