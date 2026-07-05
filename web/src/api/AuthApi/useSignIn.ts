@@ -26,8 +26,16 @@ export const useSignIn = () => {
       
       toast.success(response.data?.message || "Successfully signed in");
       
+      // Store the token in a client-side cookie so Next.js Server Components can access it
+      const token = response.data?.access_token;
+      if (token) {
+        const maxAge = data.remember_me ? 30 * 24 * 60 * 60 : 24 * 60 * 60;
+        const secureFlag = typeof window !== "undefined" && window.location.protocol === "https:" ? "; Secure" : "";
+        document.cookie = `access_token=${token}; path=/; max-age=${maxAge}; SameSite=Lax${secureFlag}`;
+      }
+
       // Redirect to dashboard or home
-      router.push("/");
+      router.push("/explore");
       router.refresh();
       return true;
     } catch (error) {

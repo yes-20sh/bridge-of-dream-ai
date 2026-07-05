@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LOGO } from "../../../public/logo";
+import axios from "axios";
 import { getHeaderMetrics, HeaderMetricsResponse } from "@/api/GeneralApi/getHeaderMetrics";
 import { logoutUser } from "@/api/UserApi/logout";
 
@@ -28,9 +29,13 @@ export function Header() {
       try {
         const data = await getHeaderMetrics();
         setMetrics(data);
-      } catch (err: any) {
+      } catch (err) {
         // If it's a 401 Unauthorized, the user simply isn't logged in yet.
-        if (err?.response?.status !== 401) {
+        if (axios.isAxiosError(err)) {
+          if (err.response?.status !== 401) {
+            console.error("Failed to fetch header metrics", err);
+          }
+        } else {
           console.error("Failed to fetch header metrics", err);
         }
       }
