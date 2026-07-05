@@ -27,7 +27,11 @@ dependencies = [
     "pyjwt",
     "bcrypt",
     "langchain",
-    "langchain-groq"
+    "langchain-groq",
+    "slowapi",
+    "cloudinary",
+    "python-docx",
+    "python-multipart"
 ]
 
 [project.optional-dependencies]
