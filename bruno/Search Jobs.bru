@@ -1,0 +1,18 @@
+meta {
+  name: Search Jobs
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://127.0.0.1:8000/api/jobs/search?job_title=Software Engineer&location=San Francisco&time_filter=day&limit=15
+  body: none
+  auth: none
+}
+
+query {
+  job_title: Software Engineer
+  location: San Francisco
+  time_filter: day
+  limit: 15
+}
