@@ -14,15 +14,15 @@ export default function proxy(request: NextRequest) {
   const token = request.cookies.get('access_token')?.value;
 
   // 1. If trying to access a protected route without a token, redirect to /signin
-  if (!isPublicRoute && !token) {
-    const signInUrl = new URL('/signin', request.url);
-    return NextResponse.redirect(signInUrl);
-  }
+  // if (!isPublicRoute && !token) {
+  //   const signInUrl = new URL('/signin', request.url);
+  //   return NextResponse.redirect(signInUrl);
+  // }
 
   // 2. If trying to access /signin while already logged in, redirect to home
-  if (pathname === '/signin' && token) {
-    return NextResponse.redirect(new URL('/', request.url));
-  }
+  // if (pathname === '/signin' && token) {
+  //   return NextResponse.redirect(new URL('/', request.url));
+  // }
 
   return NextResponse.next();
 }
