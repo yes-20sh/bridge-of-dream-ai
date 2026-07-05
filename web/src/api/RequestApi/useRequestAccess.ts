@@ -56,7 +56,7 @@ export const useRequestAccess = () => {
         `${baseUrl}/api/requests/create-request`,
         formData,
       );
-      toast.success(response.data?.message || "Request successfully saved");
+      toast.success("Request submitted! Expect approval within 24 hours.");
       setFormData({ name: "", email: "", mobile_number: "", description: "" });
     } catch (error) {
       if (axios.isAxiosError(error)) {

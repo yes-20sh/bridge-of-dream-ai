@@ -94,27 +94,33 @@ export const JobDescription = ({
               )}
             </div>
             <Button
-              className="rounded-none"
+              className="rounded-none h-10 px-8"
               disabled={isProcessing}
               onClick={async () => {
                 if (!jobDetail.job_id || !jobDetail.description) {
                   // Fallback if missing data
-                  window.dispatchEvent(new CustomEvent("switchTab", { detail: "resume" }));
+                  window.dispatchEvent(
+                    new CustomEvent("switchTab", { detail: "resume" }),
+                  );
                   return;
                 }
-                
+
                 try {
                   setIsProcessing(true);
                   await processAtsResume({
                     job_id: jobDetail.job_id,
-                    job_description: jobDetail.description
+                    job_description: jobDetail.description,
                   });
                   toast.success("Tailored resume generated successfully!");
-                  window.dispatchEvent(new CustomEvent("switchTab", { detail: "resume" }));
+                  window.dispatchEvent(
+                    new CustomEvent("switchTab", { detail: "resume" }),
+                  );
                 } catch (error) {
                   console.error("Failed to process ATS resume:", error);
                   const axiosError = error as AxiosErrorLike;
-                  const errorMessage = axiosError.response?.data?.detail || "Failed to generate tailored resume. Please verify your Gemini API key config.";
+                  const errorMessage =
+                    axiosError.response?.data?.detail ||
+                    "Failed to generate tailored resume. Please verify your Gemini API key config.";
                   toast.error(errorMessage);
                 } finally {
                   setIsProcessing(false);

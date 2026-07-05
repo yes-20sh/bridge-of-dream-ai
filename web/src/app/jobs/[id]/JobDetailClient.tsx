@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { ResumeViewer } from "@/components/ResumeViewer/ResumeViewer";
 import { ApplicationTracker } from "@/components/ApplicationTracker/ApplicationTracker";
 import { NetworkList } from "@/components/NetworkList/NetworkList";
@@ -306,23 +305,7 @@ export function JobDetailClient({
       {/* Main Content Area */}
       <div className="container mx-auto px-6 lg:px-12 py-10">
         <div className="w-full">
-          {activeView === "description" && (
-            <div className="flex flex-col gap-6">
-              {descriptionContent}
-              <div className="flex justify-end pt-4 border-t border-zinc-200">
-                <Button
-                  className="h-10 px-8 bg-blue-600 text-white hover:bg-blue-700 shadow-sm whitespace-nowrap"
-                  onClick={() =>
-                    window.dispatchEvent(
-                      new CustomEvent("switchTab", { detail: "resume" }),
-                    )
-                  }
-                >
-                  Proceed to Apply
-                </Button>
-              </div>
-            </div>
-          )}
+          {activeView === "description" && descriptionContent}
           {activeView === "resume" && <ResumeViewer jobDetail={jobDetail ?? undefined} />}
           {activeView === "connections" && (
             <NetworkList companyName={companyName} showNextStep={true} />

@@ -1,8 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
   return (
     <div className="flex flex-col justify-center min-h-screen bg-white font-sans text-zinc-900 overflow-x-hidden">
       {/* Details Section */}
@@ -53,9 +57,9 @@ export default function Home() {
               AI.
             </p>
             <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50 md:static md:block md:z-auto">
-              <Link href="/signin">
+              <Link href={token ? "/explore" : "/signin"}>
                 <button className="px-8 py-3.5 bg-zinc-800 text-white font-medium text-[15px] hover:bg-zinc-800 transition-colors shadow-[0_8px_30px_rgb(0,0,0,0.12)] md:shadow-none">
-                  Start Now
+                  {token ? "Explore more" : "Start Now"}
                 </button>
               </Link>
             </div>

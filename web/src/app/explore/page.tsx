@@ -2,7 +2,8 @@ import React, { Suspense } from "react";
 import { Search } from "@/components/Search/Search";
 import { JobSearchApiContainer } from "@/api/JobSearchApiContainer/JobSearchApiContainer";
 import { JobsApiContainer } from "@/api/JobsApiContainer/JobsApiContainer";
-import { Loader2 } from "lucide-react";
+import { JobFilterShimmer } from "@/components/JobFilter/JobFilterShimmer";
+import { JobListShimmer } from "@/components/JobList/JobListShimmer";
 
 export default async function Explore({
   searchParams,
@@ -25,14 +26,14 @@ export default async function Explore({
         {/* Sidebar */}
         <div className="w-full md:w-64 flex flex-col gap-10 shrink-0">
           {/* Filters */}
-          <Suspense fallback={<div className="flex items-center justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-zinc-400" /></div>}>
+          <Suspense fallback={<JobFilterShimmer />}>
             <JobSearchApiContainer />
           </Suspense>
         </div>
 
         {/* Main Job List */}
         <div className="flex-1">
-          <Suspense fallback={<div className="flex items-center justify-center p-12"><Loader2 className="w-8 h-8 animate-spin text-zinc-400" /></div>}>
+          <Suspense fallback={<JobListShimmer />}>
             <JobsApiContainer searchParams={searchParams} />
           </Suspense>
         </div>

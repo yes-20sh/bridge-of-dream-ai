@@ -145,7 +145,7 @@ export function Header() {
                     console.error("Logout failed:", error);
                   } finally {
                     document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    window.location.href = "/signin";
+                    window.location.href = "/";
                   }
                 }}
               >

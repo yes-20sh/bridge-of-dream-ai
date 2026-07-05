@@ -12,7 +12,6 @@
     "@base-ui/react": "^1.6.0",
     "@phosphor-icons/react": "^2.1.10",
     "@shadcn/react": "^0.2.0",
-    "@syncfusion/ej2-react-documenteditor": "^33.2.15",
     "@types/file-saver": "^2.0.7",
     "axios": "^1.18.1",
     "class-variance-authority": "^0.7.1",
