@@ -7,14 +7,13 @@ const protectedRoutes = [
   "/applied",
   "/network",
   "/account",
-  "/resume-edit",
   "/jobs",
   "/admin",
 ];
 
 const authRoutes = ["/signin", "/request", "/"];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("access_token")?.value;
 
