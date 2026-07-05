@@ -5,6 +5,7 @@ from shared.database.model_user import UserModel
 from shared.security.password_handler import verify_password
 from shared.security.jwt_handler import create_access_token
 from .schema_auth import LoginRequest
+import os
 
 class AuthService:
     def __init__(self, db: Session = Depends(get_db)):
@@ -33,25 +34,30 @@ class AuthService:
             
         access_token = create_access_token(data=token_data, expires_delta=expires_delta)
         
+  
+        is_production = os.getenv("ENVIRONMENT") == "production"
+        
         # Set the token in an HttpOnly cookie
         response.set_cookie(
             key="access_token",
             value=access_token,
             httponly=True,
             max_age=cookie_max_age,
-            samesite="lax",
-            secure=False,
+            samesite="none" if is_production else "lax",
+            secure=is_production,
             path="/"
         )
         
         return access_token
 
     def logout(self, response: Response):
+        import os
+        is_production = os.getenv("ENVIRONMENT") == "production"
         response.delete_cookie(
             key="access_token",
             httponly=True,
-            samesite="lax",
-            secure=False,
+            samesite="none" if is_production else "lax",
+            secure=is_production,
             path="/"
         )
 
