@@ -14,7 +14,7 @@ bcrypt
 cloudinary
 python-docx
 email-validator
-python-multipartpi
+python-multipart
 langchain
 langchain-groq
 slowapi
