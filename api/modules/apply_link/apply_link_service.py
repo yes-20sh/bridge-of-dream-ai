@@ -1,3 +1,4 @@
+from uuid import UUID
 import httpx
 import re
 import urllib.parse
@@ -93,7 +94,7 @@ class ApplyLinkService:
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
 
-    def update_apply_status(self, user_id: int, request: UpdateApplyStatusRequest) -> UpdateApplyStatusResponse:
+    def update_apply_status(self, user_id: UUID, request: UpdateApplyStatusRequest) -> UpdateApplyStatusResponse:
         # Fetch the AtsResumeModel for this job_id & user_id
         ats_resume = self.db.query(AtsResumeModel).filter(
             AtsResumeModel.user_id == user_id,
@@ -157,7 +158,7 @@ class ApplyLinkService:
             apply_statuses=formatted_statuses
         )
 
-    async def search_links(self, user_id: int, request: ApplyLinkSearchRequest) -> ApplyLinkSearchResponse:
+    async def search_links(self, user_id: UUID, request: ApplyLinkSearchRequest) -> ApplyLinkSearchResponse:
         company = request.company_name
         title = request.job_title
         

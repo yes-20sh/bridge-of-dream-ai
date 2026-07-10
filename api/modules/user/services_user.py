@@ -1,3 +1,4 @@
+from uuid import UUID
 import cloudinary.uploader
 from sqlalchemy.orm import Session
 from fastapi import UploadFile, HTTPException, Depends
@@ -14,7 +15,7 @@ class UserService:
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
 
-    def update_user_profile(self, user_id: int, profile_data: UserProfileUpdate):
+    def update_user_profile(self, user_id: UUID, profile_data: UserProfileUpdate):
         user = self.db.query(UserModel).filter(UserModel.id == user_id).first()
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
@@ -32,7 +33,7 @@ class UserService:
         self.db.refresh(user)
         return user
 
-    def get_user_profile(self, user_id: int):
+    def get_user_profile(self, user_id: UUID):
         user = self.db.query(UserModel).filter(UserModel.id == user_id).first()
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
@@ -51,7 +52,7 @@ class UserService:
             "resume": latest_resume
         }
 
-    async def process_and_save_resume(self, user_id: int, file: UploadFile):
+    async def process_and_save_resume(self, user_id: UUID, file: UploadFile):
         # 1. Read file content
         content = await file.read()
         
@@ -95,7 +96,7 @@ class UserService:
         
         return resume
 
-    async def update_user_profile_and_resume(self, user_id: int, profile_data: Optional[str], file: Optional[UploadFile]):
+    async def update_user_profile_and_resume(self, user_id: UUID, profile_data: Optional[str], file: Optional[UploadFile]):
         if profile_data:
             import json
             profile_dict = json.loads(profile_data)

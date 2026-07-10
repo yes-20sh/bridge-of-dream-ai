@@ -8,7 +8,7 @@ import { axiosInstance } from "@/api/axiosInstance";
 
 export const NavigationWrapper = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
-  const isAuthPage = pathname?.startsWith("/signin") || pathname?.startsWith("/request");
+  const isAuthPage = pathname?.startsWith("/signin") || pathname?.startsWith("/request") || pathname?.startsWith("/forgot-password");
   const isHomePage = pathname === "/";
   const hideNavigation = isAuthPage || isHomePage;
 

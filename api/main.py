@@ -1,8 +1,9 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.router import router as api_router
-from core.supabase import Base, engine
+from core.supabase import Base, engine, SessionLocal
 import os
+from modules.auth.services_auth import AuthService
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
@@ -15,11 +16,23 @@ import shared.database.model_ats_resume
 import shared.database.model_saved_job
 import shared.database.model_connection
 import shared.database.model_job_applied
+import shared.database.model_otp
+import shared.database.model_admin
 from middleware.auth_middleware import AuthMiddleware
 import core.cloudinary # ensure cloudinary is configured
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
+
+# Create initial admin user if not exists
+db_session = SessionLocal()
+try:
+    result = AuthService.create_admin_from_env(db_session)
+    print("Startup Admin Check:", result.get("message"))
+except Exception as e:
+    print("Error during startup admin creation:", e)
+finally:
+    db_session.close()
 
 app = FastAPI(title="Bridge of Dream AI API")
 app.state.limiter = limiter

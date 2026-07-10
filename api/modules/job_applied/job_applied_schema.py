@@ -1,3 +1,4 @@
+from uuid import UUID
 from pydantic import BaseModel
 from typing import Optional
 
@@ -10,11 +11,11 @@ class SaveJobAppliedRequest(BaseModel):
     job_type: Optional[str] = None
     location: Optional[str] = None
     apply_status: Optional[str] = "process"
-    ats_resume_id: Optional[int] = None
+    ats_resume_id: Optional[UUID] = None
 
 class JobAppliedResponse(BaseModel):
-    id: int
-    user_id: int
+    id: UUID
+    user_id: UUID
     job_id: str
     job_title: str
     company_name: str
@@ -28,4 +29,4 @@ class JobAppliedDetailResponse(JobAppliedResponse):
     job_description: Optional[str] = None
     job_type: Optional[str] = None
     location: Optional[str] = None
-    ats_resume_id: Optional[int] = None
+    ats_resume_id: Optional[UUID] = None

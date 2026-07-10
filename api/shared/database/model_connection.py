@@ -1,3 +1,5 @@
+import uuid
+from sqlalchemy.dialects.postgresql import UUID
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
@@ -6,8 +8,8 @@ from core.supabase import Base
 class ConnectionModel(Base):
     __tablename__ = "linkedin_connections"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     target_linkedin_url = Column(String(500), nullable=False, index=True)
     name = Column(String(100), nullable=False)
     profile = Column(String(10), nullable=False)  # Logo initials (e.g. "AJ")

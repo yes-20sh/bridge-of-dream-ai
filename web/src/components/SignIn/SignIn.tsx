@@ -25,7 +25,6 @@ export const SignIn = () => {
   return (
     <div className="flex-1 flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-8 bg-zinc-50 w-full h-full">
       <div className="w-full max-w-[400px] flex flex-col space-y-8">
-        
         {/* Header / Logo */}
         <div className="flex flex-col items-center text-center">
           {/* Re-using the logo for branding consistency */}
@@ -49,10 +48,12 @@ export const SignIn = () => {
         {/* Form Container (No Card) */}
         <div className="mt-8">
           <form className="space-y-6" onSubmit={onSubmit}>
-            
             {/* Email Input */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-semibold text-zinc-800">
+              <Label
+                htmlFor="email"
+                className="text-sm font-semibold text-zinc-800"
+              >
                 Email address
               </Label>
               <Input
@@ -71,10 +72,16 @@ export const SignIn = () => {
             {/* Password Input */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-sm font-semibold text-zinc-800">
+                <Label
+                  htmlFor="password"
+                  className="text-sm font-semibold text-zinc-800"
+                >
                   Password
                 </Label>
-                <Link href="#" className="text-sm font-semibold text-blue-600 hover:text-blue-500 transition-colors">
+                <Link
+                  href="/forgot-password"
+                  className="text-sm font-semibold text-blue-600 hover:text-blue-500 transition-colors"
+                >
                   Forgot password?
                 </Link>
               </div>
@@ -94,11 +101,13 @@ export const SignIn = () => {
             {/* Options */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Checkbox 
-                  id="remember-me" 
+                <Checkbox
+                  id="remember-me"
                   checked={rememberMe}
-                  onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-                  className="border-zinc-300 data-[state=checked]:bg-zinc-900 data-[state=checked]:border-zinc-900" 
+                  onCheckedChange={(checked) =>
+                    setRememberMe(checked as boolean)
+                  }
+                  className="border-zinc-300 data-[state=checked]:bg-zinc-900 data-[state=checked]:border-zinc-900"
                 />
                 <Label
                   htmlFor="remember-me"
@@ -111,30 +120,38 @@ export const SignIn = () => {
 
             {/* Submit Button */}
             <div>
-              <Button type="submit" disabled={loading} className="w-full h-12 text-base font-bold bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg transition-all">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full h-12 text-base font-bold bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg transition-all"
+              >
                 {loading ? "Signing in..." : "Sign in"}
               </Button>
             </div>
-            
           </form>
 
           {/* Divider */}
           <div className="relative mt-10">
-            <div className="absolute inset-0 flex items-center" aria-hidden="true">
+            <div
+              className="absolute inset-0 flex items-center"
+              aria-hidden="true"
+            >
               <div className="w-full border-t border-zinc-200" />
             </div>
             <div className="relative flex justify-center text-sm font-medium leading-6">
-              <span className="bg-zinc-50 px-6 text-zinc-500">Don't have an account?</span>
+              <span className="bg-zinc-50 px-6 text-zinc-500">
+                Don't have an account?
+              </span>
             </div>
           </div>
 
           {/* Request for Use */}
           <div className="mt-6">
-            <Link 
-              href="/request" 
+            <Link
+              href="/request"
               className={cn(
-                buttonVariants({ variant: "outline" }), 
-                "w-full h-12 text-base font-semibold border-zinc-200 bg-white hover:bg-zinc-50 text-zinc-800 rounded-lg"
+                buttonVariants({ variant: "outline" }),
+                "w-full h-12 text-base font-semibold border-zinc-200 bg-white hover:bg-zinc-50 text-zinc-800 rounded-lg",
               )}
             >
               Request for use

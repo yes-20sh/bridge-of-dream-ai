@@ -1,3 +1,4 @@
+from uuid import UUID
 from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
 from core.supabase import get_db
@@ -10,7 +11,7 @@ class SaveJobService:
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
 
-    def save_job(self, user_id: int, job_data: SavedJobCreate):
+    def save_job(self, user_id: UUID, job_data: SavedJobCreate):
         try:
             existing = self.db.query(SavedJobModel).filter(
                 SavedJobModel.user_id == user_id,
@@ -43,7 +44,7 @@ class SaveJobService:
                 detail=f"An error occurred while saving the job: {str(e)}"
             )
 
-    def get_saved_jobs(self, user_id: int, params: PaginationParams) -> PaginatedResponse[SavedJobDto]:
+    def get_saved_jobs(self, user_id: UUID, params: PaginationParams) -> PaginatedResponse[SavedJobDto]:
         try:
             query = self.db.query(SavedJobModel).filter(
                 SavedJobModel.user_id == user_id

@@ -1,3 +1,4 @@
+from uuid import UUID
 from math import ceil
 import urllib.parse
 import httpx
@@ -252,7 +253,7 @@ class ConnectionsService:
 
         return connections
 
-    def save_connection(self, user_id: int, connection_data: ConnectionCreate):
+    def save_connection(self, user_id: UUID, connection_data: ConnectionCreate):
         try:
             existing = self.db.query(ConnectionModel).filter(
                 ConnectionModel.user_id == user_id,
@@ -287,7 +288,7 @@ class ConnectionsService:
                 detail=f"An error occurred while saving the connection: {str(e)}"
             )
 
-    def get_saved_connections(self, user_id: int, params: PaginationParams) -> PaginatedResponse[ConnectionDto]:
+    def get_saved_connections(self, user_id: UUID, params: PaginationParams) -> PaginatedResponse[ConnectionDto]:
         try:
             query = self.db.query(ConnectionModel).filter(
                 ConnectionModel.user_id == user_id
@@ -300,7 +301,7 @@ class ConnectionsService:
                 detail=f"An error occurred while fetching saved connections: {str(e)}"
             )
 
-    def get_saved_connections_by_company(self, user_id: int, company: str, params: PaginationParams) -> PaginatedResponse[ConnectionDto]:
+    def get_saved_connections_by_company(self, user_id: UUID, company: str, params: PaginationParams) -> PaginatedResponse[ConnectionDto]:
         try:
             query = self.db.query(ConnectionModel).filter(
                 ConnectionModel.user_id == user_id,

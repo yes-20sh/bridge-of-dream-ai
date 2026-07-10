@@ -1,9 +1,10 @@
+from uuid import UUID
 from pydantic import BaseModel
 from typing import List, Optional, Dict
 from enum import Enum
 
 class JobSearchFilterResponse(BaseModel):
-    id: int
+    id: UUID
     jobRoles: Optional[List[str]] = None
     jobTypes: Optional[List[str]] = None
     locations: Optional[List[str]] = None

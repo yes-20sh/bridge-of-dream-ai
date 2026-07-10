@@ -1,3 +1,4 @@
+from uuid import UUID
 from pydantic import BaseModel
 
 class RequestCreate(BaseModel):
@@ -12,11 +13,11 @@ class RequestResponse(BaseModel):
 from enums.request_status import RequestStatus
 
 class RequestActionInput(BaseModel):
-    request_id: int
+    request_id: UUID
     approve: bool
 
 class RequestDto(BaseModel):
-    id: int
+    id: UUID
     name: str
     email: str
     mobile_number: str

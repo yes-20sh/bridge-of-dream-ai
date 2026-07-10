@@ -1,3 +1,4 @@
+from uuid import UUID
 import httpx
 import asyncio
 from bs4 import BeautifulSoup
@@ -14,7 +15,7 @@ class JobSearchService:
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
         
-    def get_user_job_filter(self, user_id: int) -> JobSearchFilterResponse:
+    def get_user_job_filter(self, user_id: UUID) -> JobSearchFilterResponse:
         user = self.db.query(UserModel).filter(UserModel.id == user_id).first()
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
@@ -27,7 +28,7 @@ class JobSearchService:
             companies=user.companies
         )
 
-    def update_last_search(self, user_id: int, request: JobSearchRequest):
+    def update_last_search(self, user_id: UUID, request: JobSearchRequest):
         filters_dict = {
             "job_roles": request.job_roles,
             "job_types": request.job_types,
@@ -55,10 +56,10 @@ class JobSearchService:
         self.db.refresh(last_search)
         return last_search
 
-    def get_last_search(self, user_id: int) -> Optional[LastSearchModel]:
+    def get_last_search(self, user_id: UUID) -> Optional[LastSearchModel]:
         return self.db.query(LastSearchModel).filter(LastSearchModel.user_id == user_id).first()
 
-    async def scrape_jobs(self, request: JobSearchRequest, user_id: Optional[int] = None) -> PaginatedJobResponse:
+    async def scrape_jobs(self, request: JobSearchRequest, user_id: Optional[UUID] = None) -> PaginatedJobResponse:
         # Check if request has no search keyword, location, or filters (is empty)
         is_empty_search = (
             not request.keyword and
@@ -223,7 +224,7 @@ class JobSearchService:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"An error occurred while scraping: {str(e)}")
 
-    async def scrape_job_details(self, user_id: int, request: JobDetailRequest) -> JobDetailResponse:
+    async def scrape_job_details(self, user_id: UUID, request: JobDetailRequest) -> JobDetailResponse:
         from shared.database.model_job_applied import JobAppliedModel
         
         applied_job = self.db.query(JobAppliedModel).filter(

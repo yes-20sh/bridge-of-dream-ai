@@ -1,3 +1,4 @@
+from uuid import UUID
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, Depends
 from core.supabase import get_db
@@ -19,7 +20,7 @@ class ResumeAtsService:
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
 
-    def get_resume(self, user_id: int, job_id: str):
+    def get_resume(self, user_id: UUID, job_id: str):
         ats_resume = self.db.query(AtsResumeModel).filter(
             AtsResumeModel.user_id == user_id,
             AtsResumeModel.job_id == job_id
@@ -30,7 +31,7 @@ class ResumeAtsService:
             
         return ats_resume
 
-    def update_resume(self, user_id: int, job_id: str, old_text: str, new_text: str):
+    def update_resume(self, user_id: UUID, job_id: str, old_text: str, new_text: str):
         ats_resume = self.get_resume(user_id, job_id)
         
         extracted_data = ats_resume.extracted_data or {}
@@ -150,7 +151,7 @@ class ResumeAtsService:
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
 
-    def get_resume(self, user_id: int, job_id: str):
+    def get_resume(self, user_id: UUID, job_id: str):
         ats_resume = self.db.query(AtsResumeModel).filter(
             AtsResumeModel.user_id == user_id,
             AtsResumeModel.job_id == job_id
@@ -161,7 +162,7 @@ class ResumeAtsService:
             
         return ats_resume
 
-    def update_resume(self, user_id: int, job_id: str, old_text: str, new_text: str):
+    def update_resume(self, user_id: UUID, job_id: str, old_text: str, new_text: str):
         ats_resume = self.get_resume(user_id, job_id)
         
         extracted_data = ats_resume.extracted_data or {}
@@ -258,7 +259,7 @@ class ResumeAtsService:
         changed_new = s_new[prefix_len : len(s_new) - suffix_len]
         return changed_old, changed_new
 
-    def analyze_job_keywords(self, user_id: int, job_description: str):
+    def analyze_job_keywords(self, user_id: UUID, job_description: str):
         latest_resume = self.db.query(ResumeModel).filter(
             ResumeModel.user_id == user_id
         ).order_by(ResumeModel.created_at.desc()).first()
@@ -388,14 +389,14 @@ class ResumeAtsService:
             
         return KeywordList(analysis_data=final_items)
 
-    def get_keyword_analysis(self, user_id: int, job_id: str):
+    def get_keyword_analysis(self, user_id: UUID, job_id: str):
         ats_resume = self.get_resume(user_id, job_id)
         return {
             "id": ats_resume.id,
             "analysis_data": ats_resume.analysis_data
         }
 
-    def process_ats_resume(self, user_id: int, job_id: str, job_description: str):
+    def process_ats_resume(self, user_id: UUID, job_id: str, job_description: str):
         # 1. Check if it already exists
         existing_ats_resume = self.db.query(AtsResumeModel).filter(
             AtsResumeModel.user_id == user_id,

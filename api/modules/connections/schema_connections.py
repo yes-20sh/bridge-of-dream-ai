@@ -1,7 +1,8 @@
+from uuid import UUID
 from pydantic import BaseModel
 
 class ConnectionDto(BaseModel):
-    id: int
+    id: UUID
     name: str
     profile: str
     job: str

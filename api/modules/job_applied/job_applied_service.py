@@ -1,3 +1,4 @@
+from uuid import UUID
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Depends
 from shared.database.model_job_applied import JobAppliedModel
@@ -7,7 +8,7 @@ class JobAppliedService:
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
 
-    def save_job_applied(self, user_id: int, request_data):
+    def save_job_applied(self, user_id: UUID, request_data):
         # Check if it already exists
         existing_job = self.db.query(JobAppliedModel).filter(
             JobAppliedModel.user_id == user_id,
@@ -45,13 +46,13 @@ class JobAppliedService:
         self.db.refresh(existing_job)
         return existing_job
 
-    def get_applied_jobs(self, user_id: int):
+    def get_applied_jobs(self, user_id: UUID):
         jobs = self.db.query(JobAppliedModel).filter(
             JobAppliedModel.user_id == user_id
         ).order_by(JobAppliedModel.id.desc()).all()
         return jobs
 
-    def get_applied_job_details(self, user_id: int, job_id: str):
+    def get_applied_job_details(self, user_id: UUID, job_id: str):
         job = self.db.query(JobAppliedModel).filter(
             JobAppliedModel.user_id == user_id,
             JobAppliedModel.job_id == job_id

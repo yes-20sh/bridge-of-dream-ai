@@ -1,3 +1,4 @@
+from uuid import UUID
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional, Any
 
@@ -10,8 +11,8 @@ class UserProfileUpdate(BaseModel):
     companies: Optional[List[str]] = None
 
 class ResumeResponse(BaseModel):
-    id: int
-    user_id: int
+    id: UUID
+    user_id: UUID
     cloudinary_url: str
     extracted_data: Optional[Any] = None
 
@@ -19,7 +20,7 @@ class ResumeResponse(BaseModel):
         from_attributes = True
 
 class UserProfileResponse(BaseModel):
-    id: int
+    id: UUID
     name: str
     email: EmailStr
     mobile: Optional[str] = None

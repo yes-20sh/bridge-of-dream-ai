@@ -11,7 +11,7 @@ const protectedRoutes = [
   "/admin",
 ];
 
-const authRoutes = ["/signin", "/request", "/"];
+const authRoutes = ["/signin", "/request", "/forgot-password", "/"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -20,8 +20,12 @@ export function proxy(request: NextRequest) {
   // Validate the route. If it doesn't match any known page/prefix, redirect to /
   const isValidRoute =
     pathname === "/" ||
-    protectedRoutes.some((route) => pathname === route || pathname.startsWith(route + "/")) ||
-    authRoutes.some((route) => pathname === route || pathname.startsWith(route + "/")) ||
+    protectedRoutes.some(
+      (route) => pathname === route || pathname.startsWith(route + "/"),
+    ) ||
+    authRoutes.some(
+      (route) => pathname === route || pathname.startsWith(route + "/"),
+    ) ||
     pathname === "/help" ||
     pathname.startsWith("/help/");
 
@@ -30,13 +34,13 @@ export function proxy(request: NextRequest) {
   }
 
   // Check if the path is protected
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    pathname === route || pathname.startsWith(route + "/")
+  const isProtectedRoute = protectedRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route + "/"),
   );
 
   // Check if the path is an auth route (signin, request)
-  const isAuthRoute = authRoutes.some((route) =>
-    pathname === route || pathname.startsWith(route + "/")
+  const isAuthRoute = authRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route + "/"),
   );
 
   // Redirect to signin if accessing a protected route without a token

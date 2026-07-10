@@ -1,3 +1,4 @@
+from uuid import UUID
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
@@ -13,8 +14,8 @@ class SavedJobCreate(BaseModel):
     company_name: Optional[str] = None
 
 class SavedJobDto(BaseModel):
-    id: int
-    user_id: int
+    id: UUID
+    user_id: UUID
     job_id: str
     description: Optional[str] = None
     logo: Optional[str] = None
